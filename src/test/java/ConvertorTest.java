@@ -5,15 +5,45 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.fail;
 
 public class ConvertorTest {
-	
-	@Test
-	public void notImplemented() {
-		System.out.println(Convertor.crack(0));
-		System.out.println(Convertor.uncrack(Convertor.crack(0)));
-		fail("Not implemented yet");
-	}
+
+    @Test
+    public void borderOneTest() {
+        int value = 1;
+        Assert.assertEquals(value, Convertor.uncrack(Convertor.crack(value)));
+    }
+
+    @Test
+    public void borderZeroTest() {
+        int value = 0;
+        Assert.assertEquals(value, Convertor.uncrack(Convertor.crack(value)));
+    }
+
+    @Test
+    public void borderMaxMaskTest() {
+        int value = -1;
+        Assert.assertEquals(value, Convertor.uncrack(Convertor.crack(value)));
+    }
+
+    @Test
+    public void borderMaxIntTest() {
+        int value = Integer.MAX_VALUE;
+        Assert.assertEquals(value, Convertor.uncrack(Convertor.crack(value)));
+    }
+
+    @Test
+    public void borderMinIntTest() {
+        int value = Integer.MIN_VALUE;
+        Assert.assertEquals(value, Convertor.uncrack(Convertor.crack(value)));
+    }
+
+    @Test
+    public void overRangeMagnitudeTest() {
+        int stepCost = 123;
+        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE - stepCost; i += stepCost)
+            Assert.assertEquals(i, Convertor.uncrack(Convertor.crack(i)));
+    }
 }
